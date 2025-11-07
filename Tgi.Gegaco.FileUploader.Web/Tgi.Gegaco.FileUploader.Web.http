@@ -1,0 +1,6 @@
+@Tgi.Gegaco.FileUploader.Web_HostAddress = http://localhost:5001
+
+GET {{Tgi.Gegaco.FileUploader.Web_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
