@@ -11,9 +11,10 @@ namespace Tgi.Gegaco.FileUploader.Application.Common.Interfaces
 {
     public interface IFileStorageService
     {
-        Task<Documento> UploadFileAsync(IFormFile archivo, CancellationToken ct);
-        Task<IEnumerable<Documento>> GetAllFilesAsync();
-        Task<Documento> GetFileByIdAsync(Guid id);
-        Task<bool> DeleteFileAsync(Guid id);
+        Task<(bool Succes, string FilePath)> SaveFileAsync(IFormFile archivo, Guid id);
+        Task<bool> DeleteFileAsync(string filePath);
+        public bool ValidateFileExtension(string fileExtension);
+        public bool ValidateFileSize(long fileSize);
+
     }
 }

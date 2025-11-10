@@ -11,18 +11,23 @@ namespace Tgi.Gegaco.FileUploader.Application.Features.Documentos.Queries.GetDoc
 {
     public class GetDocumentsHandler : IRequestHandler<GetDocumentsQuery, IEnumerable<Documento>>
     {
-        private readonly IFileStorageService _fileStorageService;
+        //private readonly IFileStorageService _fileStorageService;
+
+        private readonly IDocumentRepository _documentRepository;
         
-        public GetDocumentsHandler(IFileStorageService fileStorageService)
+        public GetDocumentsHandler(IDocumentRepository documentRepository)
         {
-            _fileStorageService = fileStorageService;
+            _documentRepository = documentRepository;
+            //_fileStorageService = fileStorageService;
         }
 
 
-        public Task<IEnumerable<Documento>> Handle(GetDocumentsQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Documento>> Handle(GetDocumentsQuery request, CancellationToken cancellationToken)
         {
-            var listaDocumentos = _fileStorageService.GetAllFilesAsync();
-            return listaDocumentos;
+            // var listaDocumentos = _fileStorageService.GetAllFilesAsync();
+            var documentos = await _documentRepository.GetAllAsync();
+
+            return documentos;
         }
     }
 }

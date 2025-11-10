@@ -27,18 +27,6 @@ namespace Tgi.Gegaco.FileUploader.Web.Controllers
             return Ok(result);
         }
 
-        [HttpDelete("{id:Guid}")]
-        public async Task<IActionResult> DeleteDocument(Guid id)
-        {
-            var command = new DeleteDocumentCommand(id);
-            var result = await _mediator.Send(command);
-            if (!result)
-            {
-                return NotFound();
-            }
-            return NoContent();
-        }
-
         [HttpGet]
         public async Task<IActionResult> GetAllDocuments()
         {
@@ -60,6 +48,19 @@ namespace Tgi.Gegaco.FileUploader.Web.Controllers
             }
             return Ok(result);
         }
+
+        [HttpDelete("{id:Guid}")]
+        public async Task<IActionResult> DeleteDocument(Guid id)
+        {
+            var command = new DeleteDocumentCommand(id);
+            var result = await _mediator.Send(command);
+            if (!result.IsSuccess)
+            {
+                return BadRequest(result);
+            }
+            return NoContent();
+        }
+
 
     }
 }

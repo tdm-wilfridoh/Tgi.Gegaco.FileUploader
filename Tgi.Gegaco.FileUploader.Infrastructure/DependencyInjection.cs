@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Tgi.Gegaco.FileUploader.Application.Common.Interfaces;
 using Tgi.Gegaco.FileUploader.Infrastructure.Persistence;
+using Tgi.Gegaco.FileUploader.Infrastructure.Persistence.Repositories;
 using Tgi.Gegaco.FileUploader.Infrastructure.Services.FileStorage;
 
 namespace Tgi.Gegaco.FileUploader.Infrastructure
@@ -20,6 +21,7 @@ namespace Tgi.Gegaco.FileUploader.Infrastructure
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
             services.AddScoped<IFileStorageService, FileStorageService>();
+            services.AddScoped<IDocumentRepository, DocumentRepository>();
         }
     }
 }
