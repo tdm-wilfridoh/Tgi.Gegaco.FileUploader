@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,11 +19,11 @@ namespace Tgi.Gegaco.FileUploader.Infrastructure.Persistence.Repositories
         }
 
 
-        public Task<Documento> AddAsync(Documento documento)
+        public async Task<Documento> AddAsync(Documento documento)
         {
-            _context.Documentos.Add(documento);
-            _context.SaveChanges();
-            return Task.FromResult(documento);
+            await _context.Documentos.AddAsync(documento);
+            await _context.SaveChangesAsync();
+            return documento;
         }
 
         public async Task<bool> DeleteAsync(Guid id)
@@ -38,15 +39,18 @@ namespace Tgi.Gegaco.FileUploader.Infrastructure.Persistence.Repositories
             return true;
         }
 
-        public Task<IEnumerable<Documento>> GetAllAsync()
+        public async Task<IEnumerable<Documento>> GetAllAsync()
         {
-            return Task.FromResult(_context.Documentos.AsEnumerable());
+            return await _context.Documentos
+                .AsNoTracking()
+                .ToListAsync();
         }
 
-        public async Task<Documento> GetByIdAsync(Guid id)
+        public async Task<Documento?> GetByIdAsync(Guid id)
         {
-            var documento = await _context.Documentos.FindAsync(id);
-            return documento!;
+            return await _context.Documentos
+                .AsNoTracking()
+                .FirstOrDefaultAsync(d => d.Id == id);
         }
     }
 }

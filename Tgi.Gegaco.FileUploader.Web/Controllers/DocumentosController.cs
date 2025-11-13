@@ -24,6 +24,10 @@ namespace Tgi.Gegaco.FileUploader.Web.Controllers
         {
             var command = new UploadDocumentCommand(file);
             var result = await _mediator.Send(command);
+            
+            if(!result.IsSuccess)
+                return BadRequest(result);
+
             return Ok(result);
         }
 
@@ -42,9 +46,9 @@ namespace Tgi.Gegaco.FileUploader.Web.Controllers
         {
             var query = new GetDocumentByIdQuery(id);
             var result = await _mediator.Send(query);
-            if (result == null)
+            if (!result.IsSuccess)
             {
-                return NotFound();
+                return NotFound(result);
             }
             return Ok(result);
         }

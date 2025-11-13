@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Azure.Core;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using System;
@@ -9,25 +10,32 @@ using System.Text;
 using System.Threading.Tasks;
 using Tgi.Gegaco.FileUploader.Application.Common.Interfaces;
 using Tgi.Gegaco.FileUploader.Domain.Entities;
+using Tgi.Gegaco.FileUploader.Infrastructure.Models;
 using Tgi.Gegaco.FileUploader.Infrastructure.Persistence;
 
 namespace Tgi.Gegaco.FileUploader.Infrastructure.Services.FileStorage
 {
     public class FileStorageService : IFileStorageService
     {
-        private readonly string _storagePath;
-        private readonly long _maxFileSize;
-        private readonly List<string> _allowedFileTypes;
+        //private readonly string _documentSettings.StoragePath;
+        //private readonly long _documentSettings.MaxFileSize;
+        //private readonly List<string>  _documentSettings.AllowedExtensions;
+        private readonly DocumentSettings _documentSettings = new();
 
-        public FileStorageService(IConfiguration configuration, IDocumentRepository documentRepository)
+        public FileStorageService(IOptions<DocumentSettings> documentSettings, IDocumentRepository documentRepository)
         {
-            _storagePath = configuration["DocumentSettings:StoragePath"] ?? throw new Exception("No se encuentra definida la ruta de carga de los documentos.");
-            _maxFileSize = long.Parse(configuration["DocumentSettings:MaxFileSize"] ?? throw new Exception("No se estableció el tamaño máximo permitido por documento."));
-            _allowedFileTypes = configuration["DocumentSettings:AllowedExtensions"]?.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToList() ?? throw new Exception("No se definieron las extensiones permitidas por documento.");
+            var settings = documentSettings.Value;
+            //_documentSettings.StoragePath = configuration["DocumentSettings:StoragePath"] ?? throw new Exception("No se encuentra definida la ruta de carga de los documentos.");
+            //_documentSettings.MaxFileSize = long.Parse(configuration["DocumentSettings:MaxFileSize"] ?? throw new Exception("No se estableció el tamaño máximo permitido por documento."));
+            // _documentSettings.AllowedExtensions = configuration["DocumentSettings:AllowedExtensions"]?.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToList() ?? throw new Exception("No se definieron las extensiones permitidas por documento.");
+            _documentSettings.StoragePath = settings.StoragePath;
+            _documentSettings.MaxFileSize = settings.MaxFileSize;
+            _documentSettings.AllowedExtensions = settings.AllowedExtensions;
 
-            if (!Directory.Exists(_storagePath))
+
+            if (!Directory.Exists(_documentSettings.StoragePath))
             {
-                Directory.CreateDirectory(_storagePath);
+                Directory.CreateDirectory(_documentSettings.StoragePath);
             }
 
         }
@@ -50,39 +58,31 @@ namespace Tgi.Gegaco.FileUploader.Infrastructure.Services.FileStorage
             }
         }
 
-        public async Task<(bool Succes, string FilePath)> SaveFileAsync(IFormFile archivo, Guid id)
+        public async Task<(bool Succes, string FilePath, string errorMessage)> SaveFileAsync(IFormFile archivo, Guid id)
         {
-            if (archivo == null) throw new InvalidOperationException("No se recibió ningún archivo.");
-            if (archivo.Length > _maxFileSize | archivo.Length == 0) throw new InvalidOperationException($"El tamaño del archivo debe ser mayor a 0 y no debe exceder de {_maxFileSize} bytes.");
-
-            var extension = Path.GetExtension(archivo.FileName);
-
-            if (string.IsNullOrEmpty(extension) || !_allowedFileTypes.Contains(extension.ToLowerInvariant(), StringComparer.OrdinalIgnoreCase))
-            {
-                throw new InvalidOperationException($"El tipo de archivo '{extension}' no está permitido.");
-            }
-
             try
             {
-                var filePath = Path.Combine(_storagePath, $"{id}{extension}");
+                var extension = Path.GetExtension(archivo.FileName);
+
+                var filePath = Path.Combine(_documentSettings.StoragePath, $"{id}{extension}");
 
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
                     await archivo.CopyToAsync(stream);
                 }
 
-                return (true, filePath);
+                return (true, filePath, string.Empty);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return (false, string.Empty);
+                return (false, string.Empty, ex.Message);
 
             }
         }
 
-        public bool ValidateFileExtension(string fileExtension) => !string.IsNullOrEmpty(fileExtension) && _allowedFileTypes.Contains(fileExtension.ToLowerInvariant(), StringComparer.OrdinalIgnoreCase);
+        public bool ValidateFileExtension(string fileExtension) => !string.IsNullOrEmpty(fileExtension) &&  _documentSettings.AllowedExtensions.Contains(fileExtension.ToLowerInvariant(), StringComparer.OrdinalIgnoreCase);
 
-        public bool ValidateFileSize(long fileSize) => fileSize > _maxFileSize || fileSize == 0;
+        public bool ValidateFileSize(long fileSize) => fileSize > _documentSettings.MaxFileSize || fileSize == 0;
 
 
     }

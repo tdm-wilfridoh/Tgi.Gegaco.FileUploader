@@ -1,29 +1,56 @@
+using Serilog;
 using Tgi.Gegaco.FileUploader.Application;
 using Tgi.Gegaco.FileUploader.Infrastructure;
+using Tgi.Gegaco.FileUploader.Infrastructure.Models;
 
-var builder = WebApplication.CreateBuilder(args);
+//Serilog configuration
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(new ConfigurationBuilder()
+        .AddJsonFile("appsettings.json")
+        .Build())
+    .CreateLogger();
 
-// Add services to the container.
-builder.Services.AddAMediatrApplication();
-builder.Services.AddInfrastructure(builder.Configuration);
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+try
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+
+    var builder = WebApplication.CreateBuilder(args);
+    builder.Logging.ClearProviders();
+    builder.Host.UseSerilog();
+
+
+
+    Log.Information("----- Iniciando FileUploader API -----");
+    // Add services to the container.
+    builder.Services.Configure<DocumentSettings>(builder.Configuration.GetSection(DocumentSettings.SectionName));
+    builder.Services.AddAMediatrApplication();
+    builder.Services.AddInfrastructure(builder.Configuration);
+    builder.Services.AddControllers();
+    // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+    builder.Services.AddEndpointsApiExplorer();
+    builder.Services.AddSwaggerGen();
+
+    var app = builder.Build();
+
+    // Configure the HTTP request pipeline.
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI();
+    }
+
+    app.UseHttpsRedirection();
+
+    app.UseAuthorization();
+
+    app.MapControllers();
+
+    app.Run();
 }
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();
+catch(Exception ex)
+{
+    Log.Fatal("Aplicación terminada inesperadamente: ", ex);
+}
+finally
+{
+    Log.CloseAndFlush();
+}
