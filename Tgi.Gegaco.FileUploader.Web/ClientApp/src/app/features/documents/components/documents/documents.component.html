@@ -1,0 +1,22 @@
+<div class="container-fluid py-4">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="mb-4">
+        <i class="bi bi-folder2-open me-2"></i>
+        Gestor de Documentos
+      </h2>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Tabla de documentos -->
+    <div class="col-lg-8 mb-4">
+      <app-document-list></app-document-list>
+    </div>
+
+    <!-- Upload de documentos -->
+    <div class="col-lg-4 mb-4">
+      <app-document-upload (documentUploaded)="onDocumentUploaded()"></app-document-upload>
+    </div>
+  </div>
+</div>

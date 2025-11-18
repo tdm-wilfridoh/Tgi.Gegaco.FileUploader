@@ -11,7 +11,7 @@ namespace Tgi.Gegaco.FileUploader.Domain.Entities
         public Guid Id { get; set; }
         public string Nombre { get; set; } = default!;
         public string Ruta { get; set; } = default!;
-        public string Extension { get; set; }
+        public string Extension { get; set; } = default!;
         public long Tamaño { get; set; }
         public DateTime FechaCreacion { get; set; } = DateTime.UtcNow;
     }

@@ -1,0 +1,85 @@
+<div class="upload-container">
+  <h5 class="mb-3">Cargar Documento</h5>
+
+  <!-- Área de drag & drop -->
+  <div
+    class="drop-zone"
+    [class.dragging]="isDragging"
+    (dragover)="onDragOver($event)"
+    (dragleave)="onDragLeave($event)"
+    (drop)="onDrop($event)"
+    (click)="fileInput.click()">
+
+    <div class="drop-zone-content">
+      <i class="bi bi-cloud-upload fs-1 text-primary"></i>
+      <p class="mt-2 mb-1">
+        <strong>Arrastra tu archivo aquí</strong>
+      </p>
+      <p class="text-muted small mb-2">o</p>
+      <button type="button" class="btn btn-outline-primary btn-sm">
+        Seleccionar archivo
+      </button>
+      <p class="text-muted small mt-3 mb-0">
+        Formatos aceptados: PDF, Excel (.xlsx, .xls) | Tamaño máximo: 10 MB
+      </p>
+    </div>
+
+    <input
+      #fileInput
+      type="file"
+      id="fileInput"
+      class="d-none"
+      accept=".pdf,.xlsx,.xls"
+      (change)="onFileSelected($event)"
+      [disabled]="isUploading">
+  </div>
+
+  <!-- Archivo seleccionado -->
+  <div *ngIf="selectedFile" class="selected-file mt-3">
+    <div class="alert alert-info d-flex align-items-center justify-content-between mb-0">
+      <div class="d-flex align-items-center">
+        <i class="bi bi-file-earmark-text fs-4 me-2"></i>
+        <div>
+          <strong>{{ selectedFile.name }}</strong>
+          <small class="d-block text-muted">{{ selectedFile.size | fileSize }}</small>
+        </div>
+      </div>
+      <button
+        type="button"
+        class="btn-close"
+        (click)="cancelSelection()"
+        [disabled]="isUploading"
+        aria-label="Cancelar">
+      </button>
+    </div>
+
+    <div class="d-grid gap-2 mt-2">
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="uploadDocument()"
+        [disabled]="isUploading">
+        <span *ngIf="!isUploading">
+          <i class="bi bi-upload me-1"></i>
+          Cargar Documento
+        </span>
+        <span *ngIf="isUploading">
+          <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+          Cargando...
+        </span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mensaje de error -->
+  <div *ngIf="uploadError" class="alert alert-danger mt-3 mb-0" role="alert">
+    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+    {{ uploadError }}
+  </div>
+
+  <!-- Mensaje de éxito -->
+  <div *ngIf="uploadSuccess" class="alert alert-success mt-3 mb-0" role="alert">
+    <i class="bi bi-check-circle-fill me-2"></i>
+    {{ uploadSuccess }}
+  </div>
+</div>

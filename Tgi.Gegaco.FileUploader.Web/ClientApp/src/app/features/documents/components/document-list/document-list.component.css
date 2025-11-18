@@ -1,0 +1,27 @@
+.document-list-container {
+  padding: 1.5rem;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.document-row {
+  transition: background-color 0.2s ease;
+}
+
+.document-row:hover {
+  background-color: #f8f9fa;
+}
+
+.table {
+  margin-bottom: 0;
+}
+
+/* Estilos para el modal personalizado */
+.modal.show {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-backdrop.show {
+  opacity: 0.5;
+}

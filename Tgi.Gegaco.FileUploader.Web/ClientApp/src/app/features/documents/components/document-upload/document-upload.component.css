@@ -1,0 +1,45 @@
+.upload-container {
+  padding: 1.5rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+}
+
+.drop-zone {
+  border: 2px dashed #ced4da;
+  border-radius: 8px;
+  padding: 2rem;
+  text-align: center;
+  background-color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.drop-zone:hover {
+  border-color: #0d6efd;
+  background-color: #f0f7ff;
+}
+
+.drop-zone.dragging {
+  border-color: #0d6efd;
+  background-color: #e7f1ff;
+  border-style: solid;
+}
+
+.drop-zone-content {
+  pointer-events: none;
+}
+
+.selected-file {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

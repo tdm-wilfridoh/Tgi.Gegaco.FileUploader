@@ -20,4 +20,8 @@
     <ProjectReference Include="..\Tgi.Gegaco.FileUploader.Infrastructure\Tgi.Gegaco.FileUploader.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ClientApp\" />
+  </ItemGroup>
+
 </Project>

@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ using Tgi.Gegaco.FileUploader.Application.Features.Documentos.Queries.GetDocumen
 namespace Tgi.Gegaco.FileUploader.Web.Controllers
 {
     [Route("api/[controller]")]
+    //[EnableCors("AllowAngular")]  // ✅ Agregar esta línea
     [ApiController]
     public class DocumentosController : ControllerBase
     {
@@ -62,7 +64,7 @@ namespace Tgi.Gegaco.FileUploader.Web.Controllers
             {
                 return BadRequest(result);
             }
-            return NoContent();
+            return Ok(result);
         }
 
 

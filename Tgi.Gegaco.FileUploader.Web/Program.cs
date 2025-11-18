@@ -24,10 +24,24 @@ try
     builder.Services.Configure<DocumentSettings>(builder.Configuration.GetSection(DocumentSettings.SectionName));
     builder.Services.AddAMediatrApplication();
     builder.Services.AddInfrastructure(builder.Configuration);
+
+
+
     builder.Services.AddControllers();
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
+
+    // Configurar CORS para Angular
+    builder.Services.AddCors(options =>
+    {
+        options.AddPolicy("AllowAngular", policy =>
+        {
+            policy.AllowAnyOrigin()
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
+    });
 
     var app = builder.Build();
 
@@ -37,6 +51,8 @@ try
         app.UseSwagger();
         app.UseSwaggerUI();
     }
+
+    app.UseCors("AllowAngular");
 
     app.UseHttpsRedirection();
 
