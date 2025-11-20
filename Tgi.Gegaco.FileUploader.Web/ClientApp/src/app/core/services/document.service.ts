@@ -9,7 +9,8 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root'
 })
 export class DocumentService {
-  private apiUrl = 'https://localhost:7258/api/Documentos'; // Ajusta el puerto según tu API
+  //private apiUrl = 'api/Documentos'; // Ajusta el puerto según tu API
+  private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) { }
 

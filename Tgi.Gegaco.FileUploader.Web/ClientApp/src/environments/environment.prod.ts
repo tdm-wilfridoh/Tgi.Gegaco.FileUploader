@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://localhost:7258/api' // Ajusta el puerto según tu API
+  apiUrl: 'api/Documentos' // Ajusta el puerto según tu API
 };

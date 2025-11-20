@@ -11,7 +11,6 @@ using Tgi.Gegaco.FileUploader.Application.Features.Documentos.Queries.GetDocumen
 namespace Tgi.Gegaco.FileUploader.Web.Controllers
 {
     [Route("api/[controller]")]
-    //[EnableCors("AllowAngular")]  // ✅ Agregar esta línea
     [ApiController]
     public class DocumentosController : ControllerBase
     {
@@ -37,6 +36,7 @@ namespace Tgi.Gegaco.FileUploader.Web.Controllers
         public async Task<IActionResult> GetAllDocuments()
         {
             // Implementation for getting all documents can be added here
+            
             var query = new GetDocumentsQuery();
             var documentos = await _mediator.Send(query);
 
