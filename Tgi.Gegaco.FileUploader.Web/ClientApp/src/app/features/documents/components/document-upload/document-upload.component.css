@@ -1,15 +1,16 @@
-.upload-container {
-  padding: 1.5rem;
-  background-color: #f8f9fa;
+/* .upload-container {
+  padding: 1rem;
+  background-color: #dde4eb;
   border-radius: 8px;
 }
+*/
 
 .drop-zone {
   border: 2px dashed #ced4da;
   border-radius: 8px;
-  padding: 2rem;
+  padding: 1rem;
   text-align: center;
-  background-color: white;
+  background-color: rgb(245, 245, 245);
   cursor: pointer;
   transition: all 0.3s ease;
 }

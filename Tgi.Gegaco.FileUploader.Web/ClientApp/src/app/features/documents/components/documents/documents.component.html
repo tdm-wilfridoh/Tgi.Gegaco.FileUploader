@@ -1,21 +1,27 @@
-<div class="container-fluid py-4">
+
+<nav class="navbar navbar-expand-lg sticky-top navbar-light bg-white">
+<a class="navbar-brand logo mr-auto" href="https://www.tgi.com.co/"></a>
+</nav>
+
+<div class="container-fluid py-3 backg ">
   <div class="row">
     <div class="col-12">
-      <h2 class="mb-4">
+      <h2 class="mb-4 ms-4 text-white fw-light">
         <i class="bi bi-folder2-open me-2"></i>
         Gestor de Documentos
       </h2>
     </div>
   </div>
 
-  <div class="row">
+
+  <div class="row p-2">
     <!-- Tabla de documentos -->
-    <div class="col-lg-8 mb-4">
+    <div class="col-lg-12 mb-2">
       <app-document-list></app-document-list>
     </div>
 
     <!-- Upload de documentos -->
-    <div class="col-lg-4 mb-4">
+    <div class="col-lg-12 ">
       <app-document-upload (documentUploaded)="onDocumentUploaded()"></app-document-upload>
     </div>
   </div>

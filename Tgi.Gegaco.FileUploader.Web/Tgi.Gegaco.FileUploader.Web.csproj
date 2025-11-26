@@ -35,9 +35,9 @@
 	
 
 	<!-- Para que VS ejecute Angular CLI automáticamente en Development -->
-   <Target Name="DebugRunAngular" AfterTargets="Build" Condition="'$(Configuration)'=='Debug'"> 
-    <Exec WorkingDirectory="$(SpaRoot)" Command="npm start" ContinueOnError="true" /> 
-  </Target> 
+   <!-- <Target Name="DebugRunAngular" AfterTargets="Build" Condition="'$(Configuration)'=='Debug'">   -->
+     <!-- <Exec WorkingDirectory="$(SpaRoot)" Command="npm start" ContinueOnError="true" />   -->
+  <!-- </Target>  -->
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="8.0.1" />

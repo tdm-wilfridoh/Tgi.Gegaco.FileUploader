@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Tgi.Gegaco.FileUploader.Infrastructure.Persistence;
 
@@ -11,9 +12,11 @@ using Tgi.Gegaco.FileUploader.Infrastructure.Persistence;
 namespace Tgi.Gegaco.FileUploader.Infrastructure.Migrations
 {
     [DbContext(typeof(FileUploaderDbContext))]
-    partial class FileUploaderDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251125041102_CambioNombreCampoTamano6")]
+    partial class CambioNombreCampoTamano6
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

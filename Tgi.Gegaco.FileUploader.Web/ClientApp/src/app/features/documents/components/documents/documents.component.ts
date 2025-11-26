@@ -8,7 +8,6 @@ import { DocumentListComponent } from '../document-list/document-list.component'
 })
 export class DocumentsComponent {
   @ViewChild(DocumentListComponent) documentList!: DocumentListComponent;
-
   /**
    * Manejar evento de documento cargado
    */

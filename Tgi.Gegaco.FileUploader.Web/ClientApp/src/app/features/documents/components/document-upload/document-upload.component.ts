@@ -70,17 +70,26 @@ export class DocumentUploadComponent {
     if (!this.documentService.validateFileExtension(file.name)) {
       this.uploadError = 'Extensión no permitida. Solo se aceptan archivos .pdf, .xlsx y .xls';
       this.selectedFile = null;
-      return;
+      //return;
     }
 
     // Validar tamaño
     if (!this.documentService.validateFileSize(file.size)) {
       this.uploadError = 'El archivo excede el tamaño máximo permitido (10 MB)';
       this.selectedFile = null;
-      return;
+      //return;
+    }
+
+    if(this.uploadError){
+       // Limpiar mensaje de error después de 3 segundos
+       setTimeout(() => {
+        this.uploadError = null;
+        }, 3000);
+       return;
     }
 
     this.selectedFile = file;
+    this.uploadDocument();
   }
 
   /**
@@ -97,7 +106,7 @@ export class DocumentUploadComponent {
 
     this.documentService.uploadDocument(this.selectedFile).subscribe({
       next: (document) => {
-        this.uploadSuccess = `Documento "${document.nombre}" cargado exitosamente`;
+        //this.uploadSuccess = `Documento "${document.nombre}" cargado exitosamente`;
         this.selectedFile = null;
         this.isUploading = false;
 
@@ -107,7 +116,7 @@ export class DocumentUploadComponent {
         // Limpiar mensaje de éxito después de 3 segundos
         setTimeout(() => {
           this.uploadSuccess = null;
-        }, 3000);
+        }, 2000);
 
         // Limpiar el input file
         const fileInput = window.document.getElementById('fileInput') as HTMLInputElement;

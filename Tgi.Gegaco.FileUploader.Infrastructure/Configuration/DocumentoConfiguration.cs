@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using Tgi.Gegaco.FileUploader.Domain.Entities;
@@ -17,7 +18,7 @@ namespace Tgi.Gegaco.FileUploader.Infrastructure.Configuration
             builder.Property(e => e.Nombre).IsRequired().HasMaxLength(255);
             builder.Property(e => e.Ruta).IsRequired().HasMaxLength(500);
             builder.Property(e => e.Extension).IsRequired();
-            builder.Property(e => e.Tamaño);
+            builder.Property(e => e.Tamano).HasColumnName("Tamano");
             builder.Property(e => e.FechaCreacion);
         }
     }

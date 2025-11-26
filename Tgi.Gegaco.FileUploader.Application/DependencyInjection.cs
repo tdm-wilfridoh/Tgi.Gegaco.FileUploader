@@ -17,5 +17,11 @@ namespace Tgi.Gegaco.FileUploader.Application
             services.AddMediatR(Assembly.GetExecutingAssembly());
             return services;
         }
+
+        public static IServiceCollection AddAutoMapperService(this IServiceCollection services)
+        {
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            return services;
+        }
     }
 }

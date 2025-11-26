@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Serilog;
+using System.Reflection;
 using Tgi.Gegaco.FileUploader.Application;
 using Tgi.Gegaco.FileUploader.Infrastructure;
 using Tgi.Gegaco.FileUploader.Infrastructure.Models;
@@ -23,6 +24,8 @@ try
     builder.Services.Configure<DocumentSettings>(builder.Configuration.GetSection(DocumentSettings.SectionName));
     builder.Services.AddAMediatrApplication();
     builder.Services.AddInfrastructure(builder.Configuration);
+
+    builder.Services.AddAutoMapperService();
 
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
@@ -50,6 +53,7 @@ try
                   .AllowAnyMethod();
         });
     });
+
 
     var app = builder.Build();
 

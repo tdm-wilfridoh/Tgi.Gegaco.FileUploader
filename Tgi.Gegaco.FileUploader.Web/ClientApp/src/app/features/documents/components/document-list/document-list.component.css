@@ -1,7 +1,8 @@
 .document-list-container {
-  padding: 1.5rem;
-  background-color: white;
-  border-radius: 8px;
+/*   padding: 1.5rem;
+ *//*   background-color: white;
+ */
+ /* border-radius: 8px; */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -17,11 +18,21 @@
   margin-bottom: 0;
 }
 
+.tabla-contenedor {
+  height: 300px; /* alto fijo o relativo según tu necesidad */
+  overflow-y: auto;
+  width: 100%;
+}
+.tabla-contenedor table {
+  width: 100%; /* para que la tabla sea responsive */
+  border-collapse: collapse;
+}
+
 /* Estilos para el modal personalizado */
-.modal.show {
+/* .modal.show {
   background-color: rgba(0, 0, 0, 0.5);
 }
 
 .modal-backdrop.show {
   opacity: 0.5;
-}
+} */

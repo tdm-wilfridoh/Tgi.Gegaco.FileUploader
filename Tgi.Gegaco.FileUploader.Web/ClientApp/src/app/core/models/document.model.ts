@@ -13,11 +13,3 @@ export interface Result<T> {
   errorMessage?: string;
 }
 
-export interface UploadResult {
-  id: string;
-  nombre: string;
-  tamaño: number;
-  tamañoFormateado: string;
-  extension: string;
-  fechaCreacion: Date;
-}

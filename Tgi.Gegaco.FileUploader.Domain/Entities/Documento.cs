@@ -12,7 +12,7 @@ namespace Tgi.Gegaco.FileUploader.Domain.Entities
         public string Nombre { get; set; } = default!;
         public string Ruta { get; set; } = default!;
         public string Extension { get; set; } = default!;
-        public long Tamaño { get; set; }
+        public long Tamano { get; set; }
         public DateTime FechaCreacion { get; set; } = DateTime.UtcNow;
     }
 }

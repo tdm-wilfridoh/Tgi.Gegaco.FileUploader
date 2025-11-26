@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { DocumentService } from '../../../../core/services/document.service';
 import { Documento } from '../../../../core/models/document.model';
 
@@ -8,10 +8,12 @@ import { Documento } from '../../../../core/models/document.model';
   styleUrls: ['./document-list.component.css']
 })
 export class DocumentListComponent implements OnInit {
+
   documents: Documento[] = [];
   isLoading = false;
   error: string | null = null;
   documentToDelete: Documento | null = null;
+  private _loadList: boolean = false;
 
   constructor(private documentService: DocumentService) { }
 
@@ -80,11 +82,12 @@ export class DocumentListComponent implements OnInit {
    * Obtener icono según extensión
    */
   getFileIcon(extension: string): string {
+    console.log(extension);
     switch (extension.toLowerCase()) {
-      case 'pdf':
+      case '.pdf':
         return 'bi-file-pdf-fill text-danger';
-      case 'xlsx':
-      case 'xls':
+      case '.xlsx':
+      case '.xls':
         return 'bi-file-excel-fill text-success';
       default:
         return 'bi-file-earmark-text';

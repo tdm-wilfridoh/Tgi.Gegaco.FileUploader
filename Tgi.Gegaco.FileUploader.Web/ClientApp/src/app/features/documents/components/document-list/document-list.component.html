@@ -1,123 +1,124 @@
-<div class="document-list-container">
-  <h5 class="mb-3">Documentos Cargados</h5>
-
-  <!-- Loading spinner -->
-  <div *ngIf="isLoading" class="text-center py-5">
-    <div class="spinner-border text-primary" role="status">
-      <span class="visually-hidden">Cargando...</span>
+  <div class="document-list-container bg-white p-4 rounded-2">
+  <!--   <h5 class="mb-3 mt-3" *ngIf="documents.length > 0" >Documentos Cargados</h5>
+  -->
+    <!-- Loading spinner -->
+    <div *ngIf="isLoading" class="text-center py-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Cargando...</span>
+      </div>
+      <p class="mt-2 text-muted">Cargando documentos...</p>
     </div>
-    <p class="mt-2 text-muted">Cargando documentos...</p>
-  </div>
 
-  <!-- Error message -->
-  <div *ngIf="error && !isLoading" class="alert alert-danger" role="alert">
-    <i class="bi bi-exclamation-triangle-fill me-2"></i>
-    {{ error }}
-  </div>
+    <!-- Error message -->
+    <div *ngIf="error && !isLoading" class="alert alert-danger" role="alert">
+      <i class="bi bi-exclamation-triangle-fill me-2"></i>
+      {{ error }}
+    </div>
 
-  <!-- Tabla de documentos -->
-  <div *ngIf="!isLoading && !error" class="table-responsive">
-    <table class="table table-hover align-middle" *ngIf="documents.length > 0; else noDocuments">
-      <thead class="table-light">
-        <tr>
-          <th scope="col" style="width: 50px;"></th>
-          <th scope="col">Nombre del Documento</th>
-          <th scope="col" style="width: 120px;">Tamaño</th>
-          <th scope="col" style="width: 180px;">Fecha de Carga</th>
-          <th scope="col" style="width: 100px;" class="text-center">Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let document of documents" class="document-row">
-          <td>
-            <i [class]="getFileIcon(document.extension)" class="fs-4"></i>
-          </td>
-          <td>
-            <strong>{{ document.nombre }}</strong>
-          </td>
-          <td>
-            <span class="badge bg-secondary">{{ document.tamano| fileSize }}</span>
-          </td>
-          <td class="text-muted small">
-            {{ formatDate(document.fechaCreacion) }}
-          </td>
-          <td class="text-center">
-            <button
-              type="button"
-              class="btn btn-sm btn-outline-danger"
-              (click)="confirmDelete(document)"
-              title="Eliminar documento">
-              <i class="bi bi-trash"></i>
-              Eliminar
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <!-- Tabla de documentos -->
+      <div *ngIf="!isLoading && !error" class="table-responsive tabla-contenedor">
+        <table class="table table-hover align-middle" *ngIf="documents.length > 0; else noDocuments">
+          <thead>
+              <tr>
+                <th ></th>
+                <th>Nombre del Documento</th>
+                <th>Tamaño</th>
+                <th>Fecha de Carga</th>
+              <th class="text-center">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let document of documents" class="document-row">
+              <td>
+                <i [class]="getFileIcon(document.extension)" class="fs-4"></i>
+              </td>
+              <td>
+                {{ document.nombre }}
+                <!-- <strong>{{ document.nombre }}</strong> -->
+              </td>
+              <td>
+                <span class="badge bg-secondary">{{ document.tamano | fileSize }}</span>
+              </td>
+              <td class="text-muted small">
+                {{ formatDate(document.fechaCreacion) }}
+              </td>
+              <td class="text-center">
+                <button
+                  type="button"
+                  class="btn btn-sm btn-outline-danger"
+                  (click)="confirmDelete(document)"
+                  title="Eliminar documento">
+                  <i class="bi bi-trash"></i>
+                  Eliminar
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
-    <!-- Mensaje cuando no hay documentos -->
-    <ng-template #noDocuments>
-      <div class="text-center py-5">
-        <i class="bi bi-inbox fs-1 text-muted"></i>
-        <p class="mt-3 text-muted">No hay documentos cargados</p>
-        <p class="text-muted small">Comienza cargando tu primer documento</p>
+        <!-- Mensaje cuando no hay documentos -->
+        <ng-template #noDocuments>
+          <div class="text-center py-2">
+            <i class="bi bi-inbox fs-1 text-muted"></i>
+            <p class="mt-3 text-muted">No hay documentos cargados</p>
+            <p class="text-muted small">Comienza cargando tu primer documento</p>
+          </div>
+        </ng-template>
       </div>
-    </ng-template>
-  </div>
-</div>
-
-<!-- Modal de confirmación de eliminación -->
-<div class="modal fade"
-     [class.show]="documentToDelete"
-     [style.display]="documentToDelete ? 'block' : 'none'"
-     tabindex="-1"
-     role="dialog"
-     [attr.aria-hidden]="!documentToDelete">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">
-          <i class="bi bi-exclamation-triangle-fill text-warning me-2"></i>
-          Confirmar Eliminación
-        </h5>
-        <button
-          type="button"
-          class="btn-close"
-          (click)="cancelDelete()"
-          aria-label="Cerrar">
-        </button>
-      </div>
-      <div class="modal-body">
-        <p>¿Estás seguro de que deseas eliminar el documento?</p>
-        <div class="alert alert-light mb-0" *ngIf="documentToDelete">
-          <strong>{{ documentToDelete.nombre }}</strong>
-          <br>
-          <small class="text-muted">{{ documentToDelete.tamano| fileSize }}</small>
+    </div>
+  <!-- Modal de confirmación de eliminación -->
+  <div class="modal fade"
+      [class.show]="documentToDelete"
+      [style.display]="documentToDelete ? 'block' : 'none'"
+      tabindex="-1"
+      role="dialog"
+      [attr.aria-hidden]="!documentToDelete">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">
+            <i class="bi bi-exclamation-triangle-fill text-warning me-2"></i>
+            Confirmar Eliminación
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            (click)="cancelDelete()"
+            aria-label="Cerrar">
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>¿Estás seguro de que deseas eliminar el documento?</p>
+          <div class="alert alert-light mb-0" *ngIf="documentToDelete">
+            <strong>{{ documentToDelete.nombre }}</strong>
+            <br>
+            <small class="text-muted">{{ documentToDelete.tamano| fileSize }}</small>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            (click)="cancelDelete()">
+            Cancelar
+          </button>
+          <button
+            type="button"
+            class="btn btn-danger"
+            (click)="deleteDocument()">
+            <i class="bi bi-trash me-1"></i>
+            Eliminar
+          </button>
         </div>
       </div>
-      <div class="modal-footer">
-        <button
-          type="button"
-          class="btn btn-secondary"
-          (click)="cancelDelete()">
-          Cancelar
-        </button>
-        <button
-          type="button"
-          class="btn btn-danger"
-          (click)="deleteDocument()">
-          <i class="bi bi-trash me-1"></i>
-          Eliminar
-        </button>
-      </div>
     </div>
   </div>
-</div>
 
-<!-- Backdrop del modal -->
-<div
-  class="modal-backdrop fade"
-  [class.show]="documentToDelete"
-  *ngIf="documentToDelete"
-  (click)="cancelDelete()">
-</div>
+  <!-- Backdrop del modal -->
+  <div
+    class="modal-backdrop fade"
+    [class.show]="documentToDelete"
+    *ngIf="documentToDelete"
+    (click)="cancelDelete()">
+  </div>
+
