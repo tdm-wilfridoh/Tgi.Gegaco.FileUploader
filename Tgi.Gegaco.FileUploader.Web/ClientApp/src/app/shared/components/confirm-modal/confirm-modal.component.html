@@ -1,0 +1,57 @@
+<!-- Modal -->
+<div
+  class="modal fade"
+  [class.show]="isVisible"
+  [style.display]="isVisible ? 'block' : 'none'"
+  tabindex="-1"
+  role="dialog"
+  [attr.aria-hidden]="!isVisible"
+  (click)="onBackdropClick($event)">
+  <div class="modal-dialog modal-dialog-centered" role="document" (click)="$event.stopPropagation()">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          <i [class]="getIconClass()" class="me-2"></i>
+          {{ modalConfig?.title }}
+        </h5>
+        <button
+          *ngIf="modalConfig?.showCloseButton"
+          type="button"
+          class="btn-close"
+          (click)="close()"
+          aria-label="Cerrar">
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>{{ modalConfig?.message }}</p>
+        <div *ngIf="modalConfig?.bodyContent" [innerHTML]="modalConfig?.bodyContent" class="mt-3"></div>
+      </div>
+      <div class="modal-footer">
+        <button
+          *ngIf="modalConfig?.secondaryButton"
+          type="button"
+          [class]="'btn ' + (modalConfig?.secondaryButton?.class || 'btn-secondary')"
+          (click)="modalConfig?.secondaryButton?.action()">
+          <i *ngIf="modalConfig?.secondaryButton?.icon" [class]="'bi ' + modalConfig?.secondaryButton?.icon + ' me-1'"></i>
+          {{ modalConfig?.secondaryButton?.label }}
+        </button>
+        <button
+          type="button"
+          [class]="'btn ' + (modalConfig?.primaryButton?.class || 'btn-primary')"
+          (click)="modalConfig?.primaryButton?.action()">
+          <i *ngIf="modalConfig?.primaryButton?.icon" [class]="'bi ' + modalConfig?.primaryButton?.icon + ' me-1'"></i>
+          {{ modalConfig?.primaryButton?.label }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Backdrop del modal -->
+<div
+  *ngIf="isVisible"
+  class="modal-backdrop fade"
+  [class.show]="isVisible"
+  (click)="onBackdropClick($event)">
+</div>
+

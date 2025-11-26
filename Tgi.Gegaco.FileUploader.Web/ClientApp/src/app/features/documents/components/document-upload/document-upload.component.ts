@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { DocumentService } from '../../../../core/services/document.service';
+import { ModalService } from 'src/app/shared/services/modal.service';
 
 @Component({
   selector: 'app-document-upload',
@@ -15,7 +16,9 @@ export class DocumentUploadComponent {
   uploadError: string | null = null;
   uploadSuccess: string | null = null;
 
-  constructor(private documentService: DocumentService) { }
+  constructor(private documentService: DocumentService,
+    private modalService: ModalService
+  ) { }
 
   /**
    * Manejar selección de archivo desde input
@@ -76,15 +79,20 @@ export class DocumentUploadComponent {
     // Validar tamaño
     if (!this.documentService.validateFileSize(file.size)) {
       this.uploadError = 'El archivo excede el tamaño máximo permitido (10 MB)';
+      //this.modalService.showError('Error al cargar documento','El archivo excede el tamaño máximo permitido (10 MB)');
       this.selectedFile = null;
       //return;
     }
 
     if(this.uploadError){
-       // Limpiar mensaje de error después de 3 segundos
-       setTimeout(() => {
+
+      this.modalService.showError('Error al cargar documento',this.uploadError);
+
+      // Limpiar mensaje de error después de 3 segundos
+
+/*        setTimeout(() => {
         this.uploadError = null;
-        }, 3000);
+        }, 3000); */
        return;
     }
 
