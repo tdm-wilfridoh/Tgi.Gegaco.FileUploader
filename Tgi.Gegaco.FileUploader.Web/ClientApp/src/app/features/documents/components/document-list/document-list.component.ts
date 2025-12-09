@@ -37,7 +37,6 @@ export class DocumentListComponent implements OnInit {
         this.isLoading = false;
       },
       error: (error) => {
-        //console.error('Error al cargar los documentos:', error.errorMessage);
         this.error = error.errorMessage || 'Error al cargar los documentos';
         this.isLoading = false;
       }

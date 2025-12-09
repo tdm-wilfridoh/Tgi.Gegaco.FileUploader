@@ -73,26 +73,18 @@ export class DocumentUploadComponent {
     if (!this.documentService.validateFileExtension(file.name)) {
       this.uploadError = 'Extensión no permitida. Solo se aceptan archivos .pdf, .xlsx y .xls';
       this.selectedFile = null;
-      //return;
     }
 
     // Validar tamaño
     if (!this.documentService.validateFileSize(file.size)) {
       this.uploadError = 'El archivo excede el tamaño máximo permitido (10 MB)';
-      //this.modalService.showError('Error al cargar documento','El archivo excede el tamaño máximo permitido (10 MB)');
       this.selectedFile = null;
-      //return;
     }
 
     if(this.uploadError){
 
       this.modalService.showError('Error al cargar documento',this.uploadError);
 
-      // Limpiar mensaje de error después de 3 segundos
-
-/*        setTimeout(() => {
-        this.uploadError = null;
-        }, 3000); */
        return;
     }
 
@@ -122,9 +114,9 @@ export class DocumentUploadComponent {
         this.documentUploaded.emit();
 
         // Limpiar mensaje de éxito después de 3 segundos
-        setTimeout(() => {
+/*         setTimeout(() => {
           this.uploadSuccess = null;
-        }, 2000);
+        }, 2000); */
 
         // Limpiar el input file
         const fileInput = window.document.getElementById('fileInput') as HTMLInputElement;
@@ -133,9 +125,10 @@ export class DocumentUploadComponent {
         }
       },
       error: (error) => {
-        this.uploadError = error.message || 'Error al cargar el documento';
+        this.uploadError = error.message;
         this.isUploading = false;
         this.selectedFile = null;
+        this.modalService.showError('Error al cargar documento', this.uploadError ?? 'Contacte al administrador para más información.');
       }
     });
   }

@@ -1,6 +1,4 @@
 <div class="upload-container">
-<!--   <h5 class="mb-3 text-center">Cargar Documento</h5>
- -->
   <!-- Área de drag & drop -->
   <div
     class="drop-zone"
@@ -11,8 +9,7 @@
     (click)="fileInput.click()">
 
     <div class="drop-zone-content">
-<!--       <i class="bi bi-cloud-upload fs-1 text-primary"></i> -->
-      <p class="mt-1 mb-1">
+     <p class="mt-1 mb-1">
         <strong>Arrastra tu archivo aquí</strong>
       </p>
       <p class="text-muted small mb-2">o</p>
@@ -35,7 +32,7 @@
   </div>
 
   <!-- Archivo seleccionado -->
-  <div *ngIf="selectedFile" class="selected-file mt-3">
+<!--   <div *ngIf="selectedFile" class="selected-file mt-3">
     <div class="alert alert-info d-flex align-items-center justify-content-between mb-0">
       <div class="d-flex align-items-center">
         <i class="bi bi-file-earmark-text fs-4 me-2"></i>
@@ -51,9 +48,9 @@
         [disabled]="isUploading"
         aria-label="Cancelar">
       </button>
-    </div>
+    </div> -->
 
-    <div class="d-grid gap-2 mt-2">
+<!--     <div class="d-grid gap-2 mt-2">
       <button
         type="button"
         class="btn btn-primary"
@@ -68,7 +65,7 @@
           Cargando...
         </span>
       </button>
-    </div>
+    </div> -->
   </div>
 
   <!-- Mensaje de error -->
